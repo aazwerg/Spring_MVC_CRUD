@@ -2,7 +2,6 @@ package web.service;
 
 import org.springframework.stereotype.Service;
 import web.dao.UserDao;
-import web.dao.UserDaoImpl;
 import web.model.User;
 
 import javax.transaction.Transactional;
@@ -19,25 +18,19 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void saveUser(String name, String lastName, Byte age, String email, String phone) {
-        dao.saveUser(name, lastName, age, email, phone);
+    public void saveUser(User user) {
+        dao.saveUser(user);
     }
 
     @Override
     @Transactional
-    public void changeUser(Long id, String name, String lastName, Byte age, String email, String phone) {
-        dao.changeUser(id, name, lastName, age, email, phone);
-    }
-
-    @Override
-    @Transactional
-    public void removeUser(Long id) {
+    public void removeUser(int id) {
         dao.removeUser(id);
     }
 
     @Override
     @Transactional
-    public User getUserById(Long id) {
+    public User getUserById(int id) {
         return dao.getUserById(id);
     }
 
