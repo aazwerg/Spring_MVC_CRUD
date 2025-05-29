@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Editing user's data</title>
+    </head>
+<body>
+<form th:method="post" th:action="@{/admin/save}" th:object="${user}">
+    <input type="hidden" id="id" th:field="*{id}">
+    <input type="hidden" id="password" th:field="*{password}">
+    <table>
+        <tr>
+            <td><label>Login</label></td>
+            <td><input type="text" th:field="*{username}"></td>
+        </tr>
+        <tr>
+            <td><label>Password</label></td>
+            <td><input type="password" th:field="*{newPassword}"></td>
+        </tr>
+        <tr>
+            <td><label>Name</label></td>
+            <td><input type="text" th:field="*{name}"></td>
+        </tr>
+        <tr>
+            <td><label>Last name</label></td>
+            <td><input type="text" th:field="*{lastName}"></td>
+        </tr>
+        <tr>
+            <td><label>Age</label></td>
+            <td><input type="number" th:field="*{age}"></td>
+        </tr>
+        <tr>
+            <td><label>Email</label></td>
+            <td><input type="email" th:field="*{email}"></td>
+        </tr>
+        <tr>
+            <td><label>Phone</label></td>
+            <td><input type="text" th:field="*{phone}"></td>
+        </tr>
+        <tr>
+            <td><label>Roles</label></td>
+            <td><inputgroup>
+                <th:block th:each="role : ${allRoles}">
+                    <label th:text="${role}"></label>
+                    <input th:value="${role.toString()}" name="newRoles" th:checked="${user.hasRole(role)}" type="checkbox"><br>
+                </th:block>
+            </inputgroup></td>
+        </tr>
+        <tr>
+            <td><a href="/admin">Discard and return</a></td>
+            <td><button type="submit">Save and return</button></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

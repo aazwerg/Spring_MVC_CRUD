@@ -8,25 +8,33 @@
 <table border="2">
     <tr>
         <th><h4>#</h4></th>
+        <th><h4>id</h4></th>
         <th><h4>Name</h4></th>
         <th><h4>Last name</h4></th>
         <th><h4>Age</h4></th>
         <th><h4>Email</h4></th>
         <th><h4>Phone</h4></th>
+        <th><h4>Login</h4></th>
+        <th><h4>Roles</h4></th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
     <tr th:each="user: ${users}">
         <td><p th:text="${userStat.count}"></p></td>
+        <td><p th:text="${user.id}"></p></td>
         <td><p th:text="${user.name}"></p></td>
         <td><p th:text="${user.lastName}"></p></td>
         <td><p th:text="${user.age}"></p></td>
         <td><p th:text="${user.email}"></p></td>
         <td><p th:text="${user.phone}"></p></td>
-        <td><a th:href="@{/edit(id=${user.id})}">Edit</a></td>
-        <td><a th:href="@{/delete(id=${user.id})}">Delete</a></td>
+        <td><p th:text="${user.username}"></p></td>
+        <td><span th:each="role: ${user.roles}"> [[${role.name}]]</span></td>
+        <td><a th:href="@{admin/edit(id=${user.id})}">Edit</a></td>
+        <td><a th:href="@{admin/delete(id=${user.id})}">Delete</a></td>
     </tr>
 </table>
-<a href="add">Add</a>
+<a href="admin/add">Add user</a>
+<a href="/user">User page</a>
+<a href="/logout">Logout</a>
 </body>
 </html>

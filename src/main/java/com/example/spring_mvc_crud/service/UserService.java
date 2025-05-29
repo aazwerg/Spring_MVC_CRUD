@@ -1,15 +1,18 @@
 package com.example.spring_mvc_crud.service;
 
+
 import com.example.spring_mvc_crud.model.User;
 
 import java.util.List;
 
 public interface UserService {
-    void saveUser(User user);
+    List<User> findAll();
 
-    void removeUser(int id);
+    void save(User user);
 
-    User getUserById(int id);
+    void delete(int id);
 
-    List<User> getAllUsers();
+    User findById(int id);
+
+    User findByUsername(String username);
 }

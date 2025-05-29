@@ -1,42 +1,65 @@
 package com.example.spring_mvc_crud.service;
 
-import com.example.spring_mvc_crud.dao.UserDao;
 import com.example.spring_mvc_crud.model.User;
+import com.example.spring_mvc_crud.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+@Transactional
+public class UserServiceImpl implements UserService, UserDetailsService {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    private final UserDao dao;
-
-    public UserServiceImpl(UserDao dao) {
-        this.dao = dao;
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    @Transactional
-    public void saveUser(User user) {
-        dao.saveUser(user);
+    @Transactional(readOnly = true)
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public void save(User user) {
+        if (!user.getNewPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getNewPassword()));
+        }
+        userRepository.save(user);
     }
 
     @Override
-    @Transactional
-    public void removeUser(int id) {
-        dao.removeUser(id);
+    @Transactional(readOnly = true)
+    public User findById(int id) {
+        return userRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "User not found, id = " + id));
     }
 
     @Override
-    @Transactional
-    public User getUserById(int id) {
-        return dao.getUserById(id);
+    public void delete(int id) {
+        userRepository.deleteById(id);
     }
 
     @Override
-    @Transactional
-    public List<User> getAllUsers() {
-        return dao.getAllUsers();
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

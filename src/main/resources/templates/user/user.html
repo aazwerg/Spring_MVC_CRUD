@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>[[${user.username}]]'s homepage</title>
+</head>
+<body>
+<table border="2">
+    <tr><td>id: </td><td><p th:text="${user.id}"></p></td></tr>
+    <tr><td>Name: </td><td><p th:text="${user.name}"></p></td></tr>
+    <tr><td>Last Name: </td><td><p th:text="${user.lastName}"></p></td></tr>
+    <tr><td>Age: </td><td><p th:text="${user.age}"></p></td></tr>
+    <tr><td>Email: </td><td><p th:text="${user.email}"></p></td></tr>
+    <tr><td>Login: </td><td><p th:text="${user.username}"></p></td></tr>
+    <tr><td>Password: </td><td title="What do you reckon to observe here?"></td></tr>
+    <tr><td>Roles: </td><td><span th:each="role: ${user.roles}"> [[${role.name}]]</span></td></tr>
+</table>
+<a href="/admin">Admin panel</a>
+<a href="/logout">Logout</a>
+</body>
+</html>
